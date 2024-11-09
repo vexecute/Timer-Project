@@ -11,6 +11,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class TimerActivity extends AppCompatActivity {
 
     private TextView timerDisplay;
@@ -119,6 +123,23 @@ public class TimerActivity extends AppCompatActivity {
 
         String timeFormatted = String.format("%02d:%02d:%02d", hours, minutes, seconds);
         timerDisplay.setText(timeFormatted);
+    }
+    private void onTimerEnd() {
+        // Save timer duration and end time
+        TimerDatabaseHelper db = new TimerDatabaseHelper(this);
+        db.addTimer(formatDuration(timeInMillis), getCurrentTime());
+    }
+
+    private String getCurrentTime() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        return sdf.format(new Date());
+    }
+
+    private String formatDuration(long millis) {
+        int hours = (int) (millis / 1000) / 3600;
+        int minutes = (int) ((millis / 1000) % 3600) / 60;
+        int seconds = (int) (millis / 1000) % 60;
+        return String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
 
     private void playSelectedSound() {
