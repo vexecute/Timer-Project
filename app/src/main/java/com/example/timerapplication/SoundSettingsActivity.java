@@ -1,6 +1,5 @@
 package com.example.timerapplication;
 
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
@@ -34,8 +33,10 @@ public class SoundSettingsActivity extends AppCompatActivity {
         previewSound3Button = findViewById(R.id.previewSound3Button);
         saveButton = findViewById(R.id.saveButton);
 
+        // Load the saved sound setting
         loadSelectedSound();
 
+        // Set up preview buttons
         previewSound1Button.setOnClickListener(v -> playSound(R.raw.sound1));
         previewSound2Button.setOnClickListener(v -> playSound(R.raw.sound2));
         previewSound3Button.setOnClickListener(v -> playSound(R.raw.sound3));
@@ -57,6 +58,7 @@ public class SoundSettingsActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         selectedSound = sharedPreferences.getInt(SELECTED_SOUND_KEY, R.raw.sound1);
 
+        // Set the radio button based on the saved sound setting
         if (selectedSound == R.raw.sound1) {
             radioSound1.setChecked(true);
         } else if (selectedSound == R.raw.sound2) {
@@ -66,8 +68,8 @@ public class SoundSettingsActivity extends AppCompatActivity {
         }
     }
 
-
     private void saveSelectedSound() {
+        // Save the selected sound based on the checked radio button
         if (radioSound1.isChecked()) {
             selectedSound = R.raw.sound1;
         } else if (radioSound2.isChecked()) {
@@ -76,12 +78,13 @@ public class SoundSettingsActivity extends AppCompatActivity {
             selectedSound = R.raw.sound3;
         }
 
-        // Save to SharedPreferences
+        // Save the selected sound in SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt(SELECTED_SOUND_KEY, selectedSound);
         editor.apply();
 
+        // Notify the user that the sound has been saved
         Toast.makeText(this, "Sound saved successfully", Toast.LENGTH_SHORT).show();
     }
 
@@ -94,4 +97,3 @@ public class SoundSettingsActivity extends AppCompatActivity {
         }
     }
 }
-
