@@ -1,6 +1,5 @@
 package com.example.timerapplication;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -12,11 +11,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class TimerActivity extends AppCompatActivity {
 
     private TextView timerDisplay;
     private EditText inputHours, inputMinutes, inputSeconds;
-    private Button startButton, pauseButton, resetButton, historyButton, soundSettingsButton;
+    private Button startButton, pauseButton, resetButton;
 
     private CountDownTimer countDownTimer;
     private boolean isTimerRunning = false;
@@ -35,39 +38,34 @@ public class TimerActivity extends AppCompatActivity {
         startButton = findViewById(R.id.startButton);
         pauseButton = findViewById(R.id.pauseButton);
         resetButton = findViewById(R.id.resetButton);
-        historyButton = findViewById(R.id.historyButton);
-        soundSettingsButton = findViewById(R.id.soundSettingsButton);
 
         // Start Button
-        startButton.setOnClickListener(v -> {
-            if (!isTimerRunning) {
-                setTimer();
-                startTimer();
+        startButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!isTimerRunning) {
+                    setTimer();
+                    startTimer();
+                }
             }
         });
 
         // Pause Button
-        pauseButton.setOnClickListener(v -> {
-            if (isTimerRunning) {
-                pauseTimer();
+        pauseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isTimerRunning) {
+                    pauseTimer();
+                }
             }
         });
 
         // Reset Button
-        resetButton.setOnClickListener(v -> resetTimer());
-
-        // History Button
-        historyButton.setOnClickListener(v -> {
-            // Navigate to History Activity
-            Intent historyIntent = new Intent(TimerActivity.this, HistoryActivity.class);
-            startActivity(historyIntent);
-        });
-
-        // Sound Settings Button
-        soundSettingsButton.setOnClickListener(v -> {
-            // Navigate to Sound Settings Activity
-            Intent soundSettingsIntent = new Intent(TimerActivity.this, SoundSettingsActivity.class);
-            startActivity(soundSettingsIntent);
+        resetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetTimer();
+            }
         });
     }
 
@@ -125,6 +123,23 @@ public class TimerActivity extends AppCompatActivity {
 
         String timeFormatted = String.format("%02d:%02d:%02d", hours, minutes, seconds);
         timerDisplay.setText(timeFormatted);
+    }
+    private void onTimerEnd() {
+        // Save timer duration and end time
+        TimerDatabaseHelper db = new TimerDatabaseHelper(this);
+        db.addTimer(formatDuration(timeInMillis), getCurrentTime());
+    }
+
+    private String getCurrentTime() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        return sdf.format(new Date());
+    }
+
+    private String formatDuration(long millis) {
+        int hours = (int) (millis / 1000) / 3600;
+        int minutes = (int) ((millis / 1000) % 3600) / 60;
+        int seconds = (int) (millis / 1000) % 60;
+        return String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
 
     private void playSelectedSound() {
