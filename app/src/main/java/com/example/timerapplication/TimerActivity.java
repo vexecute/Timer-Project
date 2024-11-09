@@ -1,5 +1,6 @@
 package com.example.timerapplication;
 
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -89,7 +90,7 @@ public class TimerActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 isTimerRunning = false;
-                playSound();
+                playSelectedSound();
                 Toast.makeText(TimerActivity.this, "Time's up!", Toast.LENGTH_SHORT).show();
                 resetTimer();
             }
@@ -120,10 +121,25 @@ public class TimerActivity extends AppCompatActivity {
         timerDisplay.setText(timeFormatted);
     }
 
-    private void playSound() {
-        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.timer_end_sound);
+    private void playSelectedSound() {
+        SharedPreferences sharedPreferences = getSharedPreferences("TimerAppPrefs", MODE_PRIVATE);
+        String selectedSound = sharedPreferences.getString("selectedSound", "sound1"); // Default to sound1
+
+        int soundResource;
+        switch (selectedSound) {
+            case "sound2":
+                soundResource = R.raw.sound2;
+                break;
+            case "sound3":
+                soundResource = R.raw.sound3;
+                break;
+            default:
+                soundResource = R.raw.sound1;
+                break;
+        }
+
+        MediaPlayer mediaPlayer = MediaPlayer.create(this, soundResource);
         mediaPlayer.start();
         mediaPlayer.setOnCompletionListener(MediaPlayer::release);
     }
 }
-

@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp"
-        android:background="#FFFFFF">
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="16dp">
 
         <!-- Timer Display -->
         <TextView
@@ -16,56 +18,57 @@
             android:layout_height="wrap_content"
             android:text="00:00:00"
             android:textSize="48sp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="32dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="32dp"
             android:textColor="#000000"/>
 
-        <!-- Time Input Fields -->
+        <!-- Input Fields for Hours, Minutes, and Seconds -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_below="@id/timerDisplay"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="16dp">
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="32dp">
 
             <EditText
                 android:id="@+id/inputHours"
-                android:layout_width="wrap_content"
+                android:layout_width="60dp"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:hint="HH"
                 android:inputType="number"
-                android:maxLength="2"
-                android:layout_marginEnd="8dp"
-                android:ems="2"/>
+                android:textAlignment="center"
+                tools:ignore="TouchTargetSizeCheck" />
 
             <EditText
                 android:id="@+id/inputMinutes"
-                android:layout_width="wrap_content"
+                android:layout_width="60dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:gravity="center"
                 android:hint="MM"
                 android:inputType="number"
-                android:maxLength="2"
-                android:layout_marginEnd="8dp"
-                android:ems="2"/>
+                android:textAlignment="center"
+                tools:ignore="TouchTargetSizeCheck" />
 
             <EditText
                 android:id="@+id/inputSeconds"
-                android:layout_width="wrap_content"
+                android:layout_width="60dp"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:hint="SS"
                 android:inputType="number"
-                android:maxLength="2"
-                android:ems="2"/>
+                android:textAlignment="center"
+                tools:ignore="TouchTargetSizeCheck" />
         </LinearLayout>
 
-        <!-- Control Buttons -->
+        <!-- Control Buttons (Start, Pause, Reset) -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_below="@id/inputHours"
-            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal"
             android:layout_marginTop="32dp">
 
             <Button
@@ -73,22 +76,28 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Start"
-                android:layout_marginEnd="8dp"/>
+                android:layout_marginEnd="16dp"
+                android:backgroundTint="#6200EE"
+                android:textColor="#FFFFFF"/>
 
             <Button
                 android:id="@+id/pauseButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Pause"
-                android:layout_marginEnd="8dp"/>
+                android:layout_marginEnd="16dp"
+                android:backgroundTint="#6200EE"
+                android:textColor="#FFFFFF"/>
 
             <Button
                 android:id="@+id/resetButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Reset"/>
+                android:text="Reset"
+                android:backgroundTint="#6200EE"
+                android:textColor="#FFFFFF"/>
         </LinearLayout>
-    </RelativeLayout>
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
