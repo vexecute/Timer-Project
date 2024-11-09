@@ -57,19 +57,15 @@ public class SoundSettingsActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         selectedSound = sharedPreferences.getInt(SELECTED_SOUND_KEY, R.raw.sound1);
 
-        // Set the radio button based on saved preference
-        switch (selectedSound) {
-            case R.raw.sound1:
-                radioSound1.setChecked(true);
-                break;
-            case R.raw.sound2:
-                radioSound2.setChecked(true);
-                break;
-            case R.raw.sound3:
-                radioSound3.setChecked(true);
-                break;
+        if (selectedSound == R.raw.sound1) {
+            radioSound1.setChecked(true);
+        } else if (selectedSound == R.raw.sound2) {
+            radioSound2.setChecked(true);
+        } else if (selectedSound == R.raw.sound3) {
+            radioSound3.setChecked(true);
         }
     }
+
 
     private void saveSelectedSound() {
         if (radioSound1.isChecked()) {
